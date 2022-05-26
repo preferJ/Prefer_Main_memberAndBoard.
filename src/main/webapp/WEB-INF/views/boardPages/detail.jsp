@@ -17,6 +17,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 </head>
 <body>
+<jsp:include page="../layout/header.jsp" flush="false"></jsp:include>
+<BR><BR><BR><BR><BR>
 <h2>detail.jsp</h2>
 글번호: ${board.id} <br>
 제목: ${board.boardTitle} <br>

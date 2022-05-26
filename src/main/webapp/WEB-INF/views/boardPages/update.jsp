@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 </head>
 <body>
+<jsp:include page="../layout/header.jsp" flush="false"></jsp:include>
+<BR><BR><BR><BR><BR>
 <h2>update.jsp</h2>
 <form action="/board/update" method="post" name="updateForm">
     <input type="text" name="id" value="${boardUpdate.id}" class="form-control" readonly>

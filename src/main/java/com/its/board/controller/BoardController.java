@@ -46,7 +46,7 @@ public class BoardController {
     public String findAll(Model model) {
         List<BoardDTO> boardDTOList = boardService.findAll();
         model.addAttribute("boardList", boardDTOList);
-        return "boardPages/list";
+        return "boardPages/pagingList";
     }
 
     // 상세조회
@@ -58,8 +58,8 @@ public class BoardController {
         model.addAttribute("page", page);
 
         //댓글 목록도 추가
-        List<CommentDTO> commentDTOList =  commentService.findAll(id);
-        model.addAttribute("commentList",commentDTOList);
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
 
         return "boardPages/detail";
     }
@@ -108,9 +108,11 @@ public class BoardController {
     }
 
     @GetMapping("/paging")
-    public String paging(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
+    public String paging(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                         @RequestParam(value = "searchType", required = false, defaultValue = "1") String searchType,
+                         @RequestParam(value = "q",required = false, defaultValue = "prefer쀍쬻껡") String q, Model model) {
         List<BoardDTO> boardList = boardService.pagingList(page);
-        PageDTO paging = boardService.paging(page);
+        PageDTO paging = boardService.paging(page, q , searchType);
         model.addAttribute("boardList", boardList);
         model.addAttribute("paging", paging);
         return "boardPages/pagingList";
@@ -119,11 +121,15 @@ public class BoardController {
 
     //검색처리
     @GetMapping("/search")
-    public String search(@RequestParam("searchType") String searchType,
-                         @RequestParam("q") String q, Model model) {
+    public String search(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                         @RequestParam(value = "searchType", required = false, defaultValue = "1") String searchType,
+                         @RequestParam(value = "q") String q, Model model) {
         List<BoardDTO> newBoardDTOList = boardService.search(searchType, q);
+        PageDTO paging = boardService.paging(page, q , searchType);
         model.addAttribute("boardList", newBoardDTOList);
-        return "boardPages/list";
+        model.addAttribute("paging", paging);
+        model.addAttribute("searchValue", q);
+        return "boardPages/pagingList";
 
     }
 
@@ -143,9 +149,9 @@ public class BoardController {
 //            })
 
     @PostMapping("/comment/save")
-    public String commentSave(@RequestParam long id , @RequestParam String commentWriter,@RequestParam String commentContents,Model model){
+    public String commentSave(@RequestParam long id, @RequestParam String commentWriter, @RequestParam String commentContents, Model model) {
         String a = "Asdasdsadasdasdsad";
-        model.addAttribute("a",a);
+        model.addAttribute("a", a);
 
         return a;
 

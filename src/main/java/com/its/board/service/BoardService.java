@@ -19,7 +19,6 @@ public class BoardService {
     private BoardRepository boardRepository;
 
 
-
     public boolean save(BoardDTO boardDTO) {
         int result = boardRepository.save(boardDTO);
         if (result > 0) {
@@ -49,13 +48,13 @@ public class BoardService {
 
     public void saveFile(BoardDTO boardDTO) throws IOException {
         /**
-            1. DTO 객체에 담긴 파일을 꺼냄.
-            2. 파일의 이름을 가져옴.
-            2.1. 파일 이름 중복을 피하기 위한 조치
-            3. 파일 이름을 DTO 객체의 boardFileName에 저장
-            4. 파일의 저장 위치 지정.
-            5. 파일 저장처리
-            6. DTO 객체 repository로 전달
+         1. DTO 객체에 담긴 파일을 꺼냄.
+         2. 파일의 이름을 가져옴.
+         2.1. 파일 이름 중복을 피하기 위한 조치
+         3. 파일 이름을 DTO 객체의 boardFileName에 저장
+         4. 파일의 저장 위치 지정.
+         5. 파일 저장처리
+         6. DTO 객체 repository로 전달
          */
         MultipartFile boardFile = boardDTO.getBoardFile(); // 1.
         String boardFileName = boardFile.getOriginalFilename(); // 2.
@@ -73,7 +72,7 @@ public class BoardService {
     private static final int BLOCK_LIMIT = 3;
 
     public List<BoardDTO> pagingList(int page) {
-        int pagingStart = (page-1) * PAGE_LIMIT;
+        int pagingStart = (page - 1) * PAGE_LIMIT;
         Map<String, Integer> pagingParam = new HashMap<>();
         pagingParam.put("start", pagingStart);
         pagingParam.put("limit", PAGE_LIMIT);
@@ -81,12 +80,22 @@ public class BoardService {
         return pagingList;
     }
 
-    public PageDTO paging(int page) {
-        int boardCount = boardRepository.boardCount();
-        int maxPage = (int)(Math.ceil((double)boardCount / PAGE_LIMIT));
-        int startPage = (((int)(Math.ceil((double)page / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1;
+    public PageDTO paging(int page, String q, String searchType) {
+        int boardCount = 0;
+        if (q == "prefer쀍쬻껡") {
+            boardCount = boardRepository.boardCount();
+
+        } else {
+            Map<String, String> searchParam = new HashMap<>();
+            searchParam.put("type", searchType);
+            searchParam.put("q", q);
+            List<BoardDTO> newBoardDTOList = boardRepository.search(searchParam);
+            boardCount = newBoardDTOList.size();
+        }
+        int maxPage = (int) (Math.ceil((double) boardCount / PAGE_LIMIT));
+        int startPage = Math.max(1, (((int) (Math.ceil((double) page / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1);
         int endPage = startPage + BLOCK_LIMIT - 1;
-        if(endPage > maxPage)
+        if (endPage > maxPage)
             endPage = maxPage;
         PageDTO paging = new PageDTO();
         paging.setPage(page);
@@ -97,9 +106,9 @@ public class BoardService {
     }
 
     public List<BoardDTO> search(String searchType, String q) {
-        Map<String,String > searchParam = new HashMap<>();
-        searchParam.put("type",searchType);
-        searchParam.put("q",q);
+        Map<String, String> searchParam = new HashMap<>();
+        searchParam.put("type", searchType);
+        searchParam.put("q", q);
         List<BoardDTO> newBoardDTOList = boardRepository.search(searchParam);
         return newBoardDTOList;
     }
