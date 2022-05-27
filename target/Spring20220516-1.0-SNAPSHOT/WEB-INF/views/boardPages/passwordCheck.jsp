@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="../layout/header.jsp" flush="false"></jsp:include>
+<BR><BR><BR><BR><BR>
     <h2>passwordCheck.jsp</h2>
     <form action="/board/delete" method="post">
         <label for="passwordConfirm">비밀번호를 입력해주세요</label>

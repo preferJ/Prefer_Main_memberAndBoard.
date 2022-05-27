@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -17,6 +16,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 </head>
 <body>
+<jsp:include page="../layout/header.jsp" flush="false"></jsp:include>
+<BR><BR><BR><BR><BR>
 <h2>detail.jsp</h2>
 글번호: ${board.id} <br>
 제목: ${board.boardTitle} <br>
@@ -43,26 +44,26 @@
 </div>
 <br><br><br>
 <div id="CommentList">
-<%--    <table class="table">--%>
-<%--        <tr>--%>
-<%--            <th>댓글번호</th>--%>
-<%--            <th>작성자</th>--%>
-<%--            <th>내용</th>--%>
-<%--            <th>작성시간</th>--%>
-<%--        </tr>--%>
-<%--        <C:forEach items="${commentList}" var="comment">--%>
-<%--            <tr>--%>
-<%--                <td>${comment.id}</td>--%>
-<%--                <td>${comment.commentWriter}</td>--%>
-<%--                <td>${comment.commentContents}</td>--%>
-<%--                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"--%>
-<%--                                    value="${comment.commentCreatedDate}"></fmt:formatDate></td>--%>
+    <table class="table">
+        <tr>
+            <th>댓글번호</th>
+            <th>작성자</th>
+            <th>내용</th>
+            <th>작성시간</th>
+        </tr>
+        <C:forEach items="${commentList}" var="comment">
+            <tr>
+                <td>${comment.id}</td>
+                <td>${comment.commentWriter}</td>
+                <td>${comment.commentContents}</td>
+                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                                    value="${comment.commentCreatedDate}"></fmt:formatDate></td>
 
 
-<%--            </tr>--%>
-<%--        </C:forEach>--%>
+            </tr>
+        </C:forEach>
 
-<%--    </table>--%>
+    </table>
 </div>
 
 </body>

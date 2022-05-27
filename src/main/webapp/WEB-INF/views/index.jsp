@@ -22,6 +22,8 @@
             location.href = "/board/paging";
         }
 
+
+
         //    회원가입: /member-save => /member/save
         //    글쓰기 : /board-save   => /board/save
     </script>
@@ -43,8 +45,13 @@
 </div>
 <br><br><br><br>
 <div class="mainBox">
-    <div style="border: 3px solid #2c3034;width: auto;height: auto" >여기는 공지사항 쓰는곳 수정은 관리자만 가능합니다. DB에는 안넣을거고 킬 때 마다 수정할거</div>
+    <div style="border: 3px solid #2c3034;width: auto;height: auto">여기는 공지사항 쓰는곳 수정은 관리자만 가능합니다. DB에는 안넣을거고 킬 때 마다
+        수정할거
+    </div>
 </div>
+
+
+
 
 <br><br><br><br>
 

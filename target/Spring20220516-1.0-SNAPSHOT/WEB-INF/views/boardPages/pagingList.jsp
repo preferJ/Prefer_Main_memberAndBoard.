@@ -15,6 +15,7 @@
 </head>
 <body>
 <jsp:include page="../layout/header.jsp" flush="false"></jsp:include>
+<BR><BR><BR><BR><BR>
 <div class="container mt-3">
     <form action="/board/search" method="get">
         <select name="searchType">
@@ -22,7 +23,16 @@
             <option value="boardWriter">작성자</option>
             <option value="boardContents">글 내용</option>
         </select>
-        <input placeholder="검색" type="text" name="q">
+        <c:choose>
+            <c:when test="${searchValue != null}">
+                <input placeholder="${searchValue}" type="text" name="q">
+
+            </c:when>
+            <c:otherwise>
+                <input placeholder="검색" type="text" name="q">
+
+            </c:otherwise>
+        </c:choose>
         <input type="submit" value="검색">
     </form>
 </div>

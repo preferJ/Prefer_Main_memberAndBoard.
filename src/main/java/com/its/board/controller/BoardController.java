@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +26,11 @@ public class BoardController {
     // 글쓰기 화면 요청
 //    @GetMapping("/board/save") // RequestMapping 미적용
     @GetMapping("/save") // RequestMapping 적용
-    public String saveForm() {
+    public String saveForm(HttpSession session) {
+        if (session.getAttribute("memberId") == null) {
+
+            return "memberPages/login";
+        }
         return "boardPages/save"; //=> views/board/save.jsp
     }
 
@@ -33,6 +38,7 @@ public class BoardController {
 //    @PostMapping("/board/save") // RequestMapping 미적용
     @PostMapping("/save") // RequestMapping 적용
     public String save(@ModelAttribute BoardDTO boardDTO) {
+
         boolean result = boardService.save(boardDTO);
         if (result) {
             return "redirect:/board/findAll"; // => /board/findAll 주소 요청
@@ -110,9 +116,9 @@ public class BoardController {
     @GetMapping("/paging")
     public String paging(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                          @RequestParam(value = "searchType", required = false, defaultValue = "1") String searchType,
-                         @RequestParam(value = "q",required = false, defaultValue = "prefer쀍쬻껡") String q, Model model) {
+                         @RequestParam(value = "q", required = false, defaultValue = "prefer쀍쬻껡") String q, Model model) {
         List<BoardDTO> boardList = boardService.pagingList(page);
-        PageDTO paging = boardService.paging(page, q , searchType);
+        PageDTO paging = boardService.paging(page, q, searchType);
         model.addAttribute("boardList", boardList);
         model.addAttribute("paging", paging);
         return "boardPages/pagingList";
@@ -125,7 +131,7 @@ public class BoardController {
                          @RequestParam(value = "searchType", required = false, defaultValue = "1") String searchType,
                          @RequestParam(value = "q") String q, Model model) {
         List<BoardDTO> newBoardDTOList = boardService.search(searchType, q);
-        PageDTO paging = boardService.paging(page, q , searchType);
+        PageDTO paging = boardService.paging(page, q, searchType);
         model.addAttribute("boardList", newBoardDTOList);
         model.addAttribute("paging", paging);
         model.addAttribute("searchValue", q);
